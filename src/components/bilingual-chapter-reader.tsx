@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { ChapterContent, ContentBlock } from "@/lib/swift-docs/types";
 import { CodeBlock } from "./code-block";
 
@@ -50,11 +50,6 @@ export function BilingualChapterReader({ chapter }: BilingualChapterReaderProps)
   const [blocks, setBlocks] = useState(chapter.blocks);
   const [editMode, setEditMode] = useState(false);
   const [saveStates, setSaveStates] = useState<Record<string, SaveState>>({});
-
-  const manualCount = useMemo(
-    () => blocks.filter((block) => block.translationSource === "manual").length,
-    [blocks],
-  );
 
   const setBlockVi = (blockId: string, vi: string) => {
     setBlocks((prev) =>
@@ -222,9 +217,6 @@ export function BilingualChapterReader({ chapter }: BilingualChapterReaderProps)
             >
               {editMode ? "Tắt chỉnh sửa" : "Bật chỉnh sửa dịch tay"}
             </button>
-            <span className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-800 dark:border-blue-500/40 dark:bg-blue-500/10 dark:text-blue-200">
-              Manual: {manualCount}
-            </span>
           </div>
         </div>
       </section>
@@ -287,31 +279,11 @@ export function BilingualChapterReader({ chapter }: BilingualChapterReaderProps)
                           {saveMessage}
                         </span>
                       ) : null}
-                      {block.translationSource === "manual" ? (
-                        <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-[11px] font-semibold text-amber-800 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
-                          Manual
-                        </span>
-                      ) : (
-                        <span className="rounded-md border border-slate-300 bg-slate-100 px-2 py-1 text-[11px] font-semibold text-slate-700 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200">
-                          Auto
-                        </span>
-                      )}
                     </div>
                   </div>
                 ) : (
                   <div className="space-y-2">
                     <p className={textClass(block)}>{block.vi}</p>
-                    <div>
-                      {block.translationSource === "manual" ? (
-                        <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-[11px] font-semibold text-amber-800 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
-                          Manual
-                        </span>
-                      ) : (
-                        <span className="rounded-md border border-slate-300 bg-slate-100 px-2 py-1 text-[11px] font-semibold text-slate-700 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200">
-                          Auto
-                        </span>
-                      )}
-                    </div>
                   </div>
                 )}
               </article>
