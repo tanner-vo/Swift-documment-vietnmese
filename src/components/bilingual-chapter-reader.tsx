@@ -13,6 +13,9 @@ type SaveState = {
   message?: string;
 };
 
+const translationEditingEnabled =
+  process.env.NEXT_PUBLIC_ENABLE_TRANSLATION_EDITING === "true";
+
 function headingClass(level?: number) {
   if (level === 1) {
     return "text-2xl font-bold tracking-tight sm:text-3xl";
@@ -49,6 +52,7 @@ function cardClass(block: ContentBlock) {
 export function BilingualChapterReader({ chapter }: BilingualChapterReaderProps) {
   const [blocks, setBlocks] = useState(chapter.blocks);
   const [editMode, setEditMode] = useState(false);
+  const [maintainerToken, setMaintainerToken] = useState("");
   const [saveStates, setSaveStates] = useState<Record<string, SaveState>>({});
 
   const setBlockVi = (blockId: string, vi: string) => {
@@ -67,6 +71,14 @@ export function BilingualChapterReader({ chapter }: BilingualChapterReaderProps)
   };
 
   const saveBlock = async (block: ContentBlock) => {
+    if (!maintainerToken) {
+      setSaveStates((prev) => ({
+        ...prev,
+        [block.id]: { status: "error", message: "Nhập mã maintainer trước khi lưu" },
+      }));
+      return;
+    }
+
     setSaveStates((prev) => ({
       ...prev,
       [block.id]: { status: "saving" },
@@ -76,6 +88,7 @@ export function BilingualChapterReader({ chapter }: BilingualChapterReaderProps)
       const response = await fetch("/api/translation-override", {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${maintainerToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -119,6 +132,14 @@ export function BilingualChapterReader({ chapter }: BilingualChapterReaderProps)
   };
 
   const resetBlock = async (block: ContentBlock) => {
+    if (!maintainerToken) {
+      setSaveStates((prev) => ({
+        ...prev,
+        [block.id]: { status: "error", message: "Nhập mã maintainer trước khi reset" },
+      }));
+      return;
+    }
+
     setSaveStates((prev) => ({
       ...prev,
       [block.id]: { status: "saving" },
@@ -128,6 +149,7 @@ export function BilingualChapterReader({ chapter }: BilingualChapterReaderProps)
       const response = await fetch("/api/translation-override", {
         method: "DELETE",
         headers: {
+          Authorization: `Bearer ${maintainerToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -204,20 +226,33 @@ export function BilingualChapterReader({ chapter }: BilingualChapterReaderProps)
               {chapter.title}
             </h1>
             <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-300">
-              Trái EN, phải VI. Bạn có thể bật chế độ chỉnh sửa để tự dịch tay
-              từng đoạn.
+              Trái EN, phải VI. Chế độ chỉnh sửa chỉ dành cho maintainer đã xác thực.
             </p>
           </div>
 
-          <div className="flex w-full items-center gap-2 sm:w-auto">
-            <button
-              type="button"
-              onClick={() => setEditMode((prev) => !prev)}
-              className="flex-1 rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white hover:bg-slate-700 dark:bg-blue-600 dark:hover:bg-blue-500 sm:flex-none"
-            >
-              {editMode ? "Tắt chỉnh sửa" : "Bật chỉnh sửa dịch tay"}
-            </button>
-          </div>
+          {translationEditingEnabled ? (
+            <div className="flex w-full flex-col gap-2 sm:w-auto">
+              {editMode ? (
+                <label className="text-xs font-medium text-slate-600 dark:text-slate-300">
+                  Mã maintainer
+                  <input
+                    type="password"
+                    autoComplete="off"
+                    value={maintainerToken}
+                    onChange={(event) => setMaintainerToken(event.target.value)}
+                    className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+                  />
+                </label>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => setEditMode((prev) => !prev)}
+                className="rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white hover:bg-slate-700 dark:bg-blue-600 dark:hover:bg-blue-500"
+              >
+                {editMode ? "Tắt chỉnh sửa" : "Chỉnh sửa (maintainer)"}
+              </button>
+            </div>
+          ) : null}
         </div>
       </section>
 

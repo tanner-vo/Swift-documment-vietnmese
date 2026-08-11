@@ -1,0 +1,50 @@
+name: Đề xuất sửa bản dịch
+description: Báo một đoạn dịch sai, khó hiểu hoặc không nhất quán.
+title: "[Translation]: "
+labels: [translation]
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Chapter URL hoặc slug
+      placeholder: https://docs.swift.org/... hoặc /chapter/concurrency
+    validations:
+      required: true
+
+  - type: textarea
+    id: english
+    attributes:
+      label: Nội dung tiếng Anh gốc
+      description: Chỉ trích đoạn tối thiểu cần thiết để xác định block.
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: Bản dịch hiện tại
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Bản dịch đề xuất
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Lý do hoặc tài liệu tham khảo
+      description: Giải thích lựa chọn thuật ngữ; giữ nguyên code và API names.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: license
+    attributes:
+      label: License
+      options:
+        - label: Tôi đồng ý đóng góp phần chuyển ngữ này theo CC BY 4.0.
+          required: true

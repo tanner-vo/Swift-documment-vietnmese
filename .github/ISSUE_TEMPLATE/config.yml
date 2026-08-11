@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Báo cáo lỗ hổng riêng tư
+    url: https://github.com/tanner-vo/Swift-documment-vietnmese/security/advisories/new
+    about: Không công khai lỗ hổng chưa được vá trong issue.
+  - name: Tài liệu Swift gốc
+    url: https://docs.swift.org/swift-book/
+    about: Đối chiếu nội dung nguồn trước khi báo lỗi dịch.

@@ -1,17 +1,33 @@
 {
-  "name": "swift-docs",
+  "name": "swift-docs-vietnamese",
   "version": "0.1.0",
   "private": true,
+  "description": "A bilingual English-Vietnamese reader for The Swift Programming Language.",
+  "license": "MIT",
+  "author": "tanner-vo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tanner-vo/Swift-documment-vietnmese.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tanner-vo/Swift-documment-vietnmese/issues"
+  },
+  "homepage": "https://github.com/tanner-vo/Swift-documment-vietnmese#readme",
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run lint && npm run typecheck && npm run build"
   },
   "dependencies": {
     "better-sqlite3": "^12.8.0",
     "cheerio": "^1.2.0",
-    "next": "16.2.1",
+    "next": "16.3.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-syntax-highlighter": "^16.1.1",
@@ -26,7 +42,7 @@
     "@types/react-syntax-highlighter": "^15.5.13",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
-    "eslint-config-next": "16.2.1",
+    "eslint-config-next": "16.3.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

@@ -1,0 +1,57 @@
+name: Báo lỗi ứng dụng
+description: Báo lỗi parser, giao diện, cache hoặc hành vi runtime.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Cảm ơn bạn đã báo lỗi. Không gửi secret hoặc lỗ hổng chưa được vá tại đây.
+
+  - type: input
+    id: page
+    attributes:
+      label: URL hoặc chapter slug
+      placeholder: /chapter/concurrency
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Mô tả lỗi
+      description: Điều gì đã xảy ra và bạn mong đợi điều gì?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Các bước tái hiện
+      placeholder: |
+        1. Mở...
+        2. Chọn...
+        3. Quan sát...
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Môi trường
+      placeholder: macOS 15, Chrome 140, commit abc123
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Log hoặc ảnh đã được làm sạch
+      description: Xóa token, cookie, dữ liệu cá nhân và thông tin nhạy cảm.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Xác nhận
+      options:
+        - label: Tôi đã tìm issue trùng lặp.
+          required: true
+        - label: Báo cáo này không chứa secret hoặc lỗ hổng chưa công bố.
+          required: true

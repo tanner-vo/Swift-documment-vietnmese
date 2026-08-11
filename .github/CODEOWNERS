@@ -1,0 +1,6 @@
+* @tanner-vo
+
+/.github/ @tanner-vo
+/src/app/api/ @tanner-vo
+/src/lib/db/ @tanner-vo
+/src/lib/security/ @tanner-vo
